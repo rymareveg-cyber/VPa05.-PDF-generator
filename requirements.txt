@@ -1,0 +1,5 @@
+weasyprint>=62.0
+Jinja2>=3.1.0
+# Optional but supported; if absent, csv module will be used for CSV
+pandas>=2.0.0
+

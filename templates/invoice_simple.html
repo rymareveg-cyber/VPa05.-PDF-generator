@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Счет {{ invoice_id }}</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+      @bottom-center { content: "Стр. " counter(page) " из " counter(pages); font-size: 10pt; color: #666; }
+    }
+    body { color: #222; font-size: 12pt; }
+    h1 { margin: 0 0 6mm 0; font-size: 20pt; }
+    .muted { color: #666; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-bottom: 8mm; }
+    .box { border: 1px solid #ddd; padding: 4mm; border-radius: 3px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; }
+    th { background: #f3f6fa; }
+    tbody tr:nth-child(even) { background: #fafafa; }
+    tfoot td { font-weight: bold; }
+    .right { text-align: right; }
+  </style>
+</head>
+<body>
+  <h1>Счет № {{ invoice_id }}</h1>
+  <div class="muted">Дата счета: {{ record.invoice_date }}</div>
+
+  <div class="grid">
+    <div class="box">
+      <strong>Поставщик</strong><br>
+      {{ record.company_name }}<br>
+      {{ record.company_address }}<br>
+      Тел.: {{ record.company_phone }}<br>
+      Email: {{ record.company_email }}
+    </div>
+    <div class="box">
+      <strong>Покупатель</strong><br>
+      {{ record.customer_name }}<br>
+      {{ record.customer_address }}
+    </div>
+  </div>
+
+  {% set rows = records %}
+  {% set subtotal = 0 %}
+  {% set vat_total = 0 %}
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 6mm;" class="right">#</th>
+        <th>Наименование</th>
+        <th class="right" style="width: 20mm;">Кол-во</th>
+        <th class="right" style="width: 25mm;">Цена</th>
+        <th class="right" style="width: 18mm;">НДС</th>
+        <th class="right" style="width: 28mm;">Сумма</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+        {% set qty = (r.qty | float) %}
+        {% set price = (r.price | float) %}
+        {% set rate = (r.vat_rate | float) %}
+        {% set line = qty * price %}
+        {% set vat = line * rate %}
+        {% set _ = namespace() %}
+        {% set subtotal = subtotal + line %}
+        {% set vat_total = vat_total + vat %}
+        <tr>
+          <td class="right">{{ loop.index }}</td>
+          <td>{{ r.item_name }}</td>
+          <td class="right">{{ qty|round(2) }}</td>
+          <td class="right">{{ price|round(2) }}</td>
+          <td class="right">{{ (rate*100)|round(0) }}%</td>
+          <td class="right">{{ line|round(2) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      {% set total = subtotal + vat_total %}
+      <tr>
+        <td colspan="5" class="right">Итого без НДС</td>
+        <td class="right">{{ subtotal|round(2) }}</td>
+      </tr>
+      <tr>
+        <td colspan="5" class="right">НДС</td>
+        <td class="right">{{ vat_total|round(2) }}</td>
+      </tr>
+      <tr>
+        <td colspan="5" class="right">Итого к оплате</td>
+        <td class="right">{{ total|round(2) }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <p class="muted" style="margin-top: 10mm;">
+    Сформировано: {{ generated_at }} · Файл данных: {{ data_file }} · Шаблон: {{ template_file }}
+  </p>
+</body>
+</html>
+
+

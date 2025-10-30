@@ -1,0 +1,33 @@
+{
+  "ORD-2001": {
+    "order_id": "ORD-2001",
+    "order_date": "2025-10-06",
+    "customer_name": "ООО \"Ромашка\"",
+    "customer_address": "г. Москва, ул. Пушкина, д. 10",
+    "items": [
+      {"product_id": "P-001", "name": "Консалтинг", "qty": 6, "price": 3500, "vat_rate": 0.2},
+      {"product_id": "P-004", "name": "Подготовка отчета", "qty": 1, "price": 12000, "vat_rate": 0.2}
+    ]
+  },
+  "ORD-2002": {
+    "order_id": "ORD-2002",
+    "order_date": "2025-10-07",
+    "customer_name": "АО \"Вектор\"",
+    "customer_address": "г. Санкт-Петербург, Невский пр-т, 20",
+    "items": [
+      {"product_id": "P-002", "name": "Аналитика", "qty": 8, "price": 4000, "vat_rate": 0.2},
+      {"product_id": "P-003", "name": "Техподдержка", "qty": 10, "price": 2000, "vat_rate": 0.2}
+    ]
+  },
+  "ORD-2003": {
+    "order_id": "ORD-2003",
+    "order_date": "2025-10-09",
+    "customer_name": "ООО \"Сфера\"",
+    "customer_address": "г. Казань, ул. Баумана, 5",
+    "items": [
+      {"product_id": "P-006", "name": "Лицензия ПО", "qty": 3, "price": 15000, "vat_rate": 0.2},
+      {"product_id": "P-007", "name": "Обучение команды", "qty": 5, "price": 3000, "vat_rate": 0.2}
+    ]
+  }
+}
+

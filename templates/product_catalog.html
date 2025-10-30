@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Каталог товаров</title>
+  <style>
+    @page { size: A4; margin: 20mm; @bottom-center { content: "Стр. " counter(page) " из " counter(pages); font-size: 10pt; color: #666; } }
+    body { color: #222; font-size: 12pt; }
+    h1 { margin: 0 0 6mm 0; font-size: 20pt; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; }
+    th { background: #f3f6fa; }
+    tbody tr:nth-child(even) { background: #fafafa; }
+    .right { text-align: right; }
+  </style>
+</head>
+<body>
+  <h1>Каталог товаров</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 28mm;">product_id</th>
+        <th>name</th>
+        <th style="width: 18mm;">unit</th>
+        <th class="right" style="width: 25mm;">price</th>
+        <th class="right" style="width: 18mm;">vat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in records %}
+      <tr>
+        <td>{{ r.product_id }}</td>
+        <td>{{ r.name }}</td>
+        <td>{{ r.unit }}</td>
+        <td class="right">{{ (r.price | float) | round(2) }}</td>
+        <td class="right">{{ ((r.vat_rate | float) * 100) | round(0) }}%</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="muted" style="margin-top: 10mm; color:#666;">
+    Сформировано: {{ generated_at }} · Файл данных: {{ data_file }} · Шаблон: {{ template_file }}
+  </p>
+</body>
+</html>
+
+
